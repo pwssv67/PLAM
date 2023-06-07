@@ -10,7 +10,7 @@ class PlamPlugin : Plugin<Project> {
             attachTasksToAndroidFlavorTasks(project)
         } catch (e: Throwable) {
             if (e is ClassNotFoundException || e is NoClassDefFoundError) {
-                project.logger.lifecycle("Android Gradle Plugin seems to be missing in ${project.name}. For this module plugin won't check anything.")
+                project.logger.warn("Android Gradle Plugin seems to be missing in ${project.name}. For this module plugin won't check anything.")
             } else {
                 throw e
             }

@@ -34,9 +34,9 @@ internal fun Project.registerDependency(dependency: DependencyWrapper) {
     if (registeredAsPlatform) {
         val castDep = dep as? Dependency
         // we can't use dep.toString() because it will give too much of information instead of "group:name:version"
-         castDep?.let { logger.lifecycle("Register platform dependency: $config \"${it.group}:${it.name}:${it.version}\"") }
+         castDep?.let { logger.info("Register platform dependency: $config \"${it.group}:${it.name}:${it.version}\"") }
     } else {
-        logger.lifecycle("Register dependency: $config \"$dep\"")
+        logger.info("Register dependency: $config \"$dep\"")
     }
 
     dependencies.add(config, dep)
