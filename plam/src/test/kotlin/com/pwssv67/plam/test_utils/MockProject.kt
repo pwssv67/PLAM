@@ -27,7 +27,7 @@ open class MockProjectTest {
     }
 
     protected fun setConfiguration(configurationBlock: Configuration.() -> Unit) {
-        `when`(project.extensions.getByType(Configuration::class.java)).thenReturn(
+        `when`(project.rootProject.extensions.findByType(Configuration::class.java)).thenReturn(
             Configuration().apply(configurationBlock)
         )
     }

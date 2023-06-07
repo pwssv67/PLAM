@@ -17,6 +17,7 @@ abstract class ConfigFunctionBaseTest : MockProjectTest() {
 
     @Before
     fun `set up extra mocks`() {
+        `set up rootProject mock`()
         `set up configuration mock`()
         `set up extra properties mock`()
     }
@@ -41,5 +42,12 @@ abstract class ConfigFunctionBaseTest : MockProjectTest() {
 
     private fun `set up extra properties mock`() {
         `when`(project.extensions.extraProperties).thenReturn(mock())
+    }
+
+    private fun `set up rootProject mock`() {
+        val rootProject: Project = mock()
+        `when`(project.rootProject).thenReturn(rootProject)
+        `when`(project.rootProject.project).thenReturn(rootProject)
+        `when`(rootProject.extensions).thenReturn(mock())
     }
 }
