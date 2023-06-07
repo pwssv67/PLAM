@@ -81,7 +81,7 @@ gradlePlugin {
         create("PLAM") {
             id = "io.github.pwssv67.plam"
             implementationClass = "com.pwssv67.plam.PlamPlugin"
-            version = "0.2.1"
+            version = "0.2.2"
 
             displayName = "PLugin for Android Modularisation"
             description = "A plugin that helps you modularise projects and verify dependencies between different types of modules"
