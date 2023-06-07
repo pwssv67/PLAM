@@ -2,6 +2,7 @@ package com.pwssv67.plam
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.pwssv67.plam.utils.applyDefaultPlugins
+import com.pwssv67.plam.utils.getExtensionByType
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
@@ -14,7 +15,7 @@ fun Project.androidApp(
 ) {
     applyDefaultPlugins(true)
 
-    val myConfig = project.extensions.getByType(Configuration::class.java)
+    val myConfig = getExtensionByType(Configuration::class.java)
 
     (this as? ExtensionAware)?.extensions?.run {
         //set default config

@@ -39,9 +39,7 @@ class Configuration {
 fun Project.configure(block: Configuration.() -> Unit) {
     val configuration = Configuration()
     configuration.block()
-    this.childProjects.values.forEach {
-        it.extensions.add(CONFIG_EXT_NAME, configuration)
-    }
+    extensions.add(CONFIG_EXT_NAME, configuration)
 }
 
 const val CONFIG_EXT_NAME = "plamConfigurationExtension"

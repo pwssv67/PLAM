@@ -93,9 +93,9 @@ gradlePlugin {
 
 publishing {
     repositories {
-//        mavenLocal {
-//            url = uri("${System.getenv("HOME")}/programming/maven-repository")
-//        }
+        mavenLocal {
+            url = uri("${System.getenv("HOME")}/programming/maven-repository")
+        }
 //        mavenCentral()
     }
 
