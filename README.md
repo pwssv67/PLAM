@@ -11,9 +11,9 @@ If you are just starting a new project, that's all build script code you will ne
 import com.pwssv67.plam.*
 
 plugins {
-    id("com.android.application") version "7.4.0" apply false
+    id("com.android.application") version "8.0.0" apply false
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
-    id("com.android.library") version "7.4.0" apply false
+    id("com.android.library") version "8.0.0" apply false
     id("io.github.pwssv67.plam") version "0.2.2" apply false
 }
 
@@ -29,7 +29,7 @@ configure {
     }
 }
 
-//app module build.gradle.kts
+//app build.gradle.kts
 import com.pwssv67.plam.*
 
 androidApp(
@@ -43,11 +43,51 @@ androidApp(
 ```
 
 ## Keeping track of module types
-There are currently four module types
+There are currently four module types:
 * App - for app itself, as build endpoint, accumulating all other dependencies. Can be used only in other **Apps**. Can use anything.
 * FeatureAPI - feature API or signature, like starting params needed for feature. Has the same role as an interface to an actual implementation: for dependency inversion. Can use only **libraries**.
 * FeatureImpl - feature actual implementation. Can only be used in **App** module. Can use other **feature's APIs** and **libraries**
 * Library - widely used code, like network requests, design components, etc. Can be added to any module.
+
+## Dependency type check before builds
+It analyzes the declared dependencies between modules and validates whether they comply with these predefined rules.
+If a module attempts to declare an unsupported dependency, the plugin will automatically fail the build and provide clear error messages to help you identify and resolve the issue.
+
+## Minimal boilerplate
+You can write all common configuration code once, in root `build.gradle.kts`, and only change necessary parts for each module (like namespace or IDs)
+### 
+```kotlin
+//root build.gradle.kts
+configure {
+    appConfig {
+        namespace = "com.sample"
+        compileSdk = 33
+
+        defaultConfig {
+            applicationId = "com.sample"
+            minSdk = 26
+        }
+    }
+}
+
+//App1 build.gradle.kts
+androidApp(
+    dependencies = listOf(/*Dependencies*/)
+) {
+    defaultConfig {
+        applicationId += "App1"
+    }
+}
+
+//App2 build.gradle.kts
+androidApp(
+    dependencies = listOf(/*Dependencies*/)
+) {
+    defaultConfig {
+        applicationId += "App2"
+    }
+}
+```
 
 ### Typical module structure
 ```mermaid
