@@ -1,7 +1,7 @@
 # PLAM
 [![Maven Central](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/pwssv67/plam/io.github.pwssv67.plam.gradle.plugin/maven-metadata.xml.svg?colorB=ff6b00&label=Gradle%20Plugin%20Portal)](https://plugins.gradle.org/plugin/io.github.pwssv67.plam)
 
-PLAM - PLugin for Android Modularisation, symplifying architectural tasks and verifying dependencies between different module types.
+PLAM - PLugin for Android Modularisation, simplifying architectural tasks and verifying dependencies between different module types.
 
 ## Easy to use
 
@@ -14,7 +14,7 @@ plugins {
     id("com.android.application") version "7.4.0" apply false
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     id("com.android.library") version "7.4.0" apply false
-    id("io.github.pwssv67.plam") version "0.2.0" apply false
+    id("io.github.pwssv67.plam") version "0.2.2" apply false
 }
 
 configure {
@@ -64,7 +64,7 @@ flowchart TD
     F --> D & B & C & E
     G --> E & C 
 ```
-*For the sake of simplicity, App's dependency to feature API's is omitted.*
+*For the sake of simplicity, App's dependencies to features' APIs are omitted.*
 
 ## Use Samples
-[Sample project](https://github.com/pwssv67/PLAM/samples/project)
+[Sample project](https://github.com/pwssv67/PLAM/tree/main/samples/simple%20modular%20project)
