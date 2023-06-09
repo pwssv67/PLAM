@@ -36,7 +36,7 @@ class Configuration {
 }
 
 @Suppress("unused")
-fun Project.configure(block: Configuration.() -> Unit) {
+fun Project.plam(block: Configuration.() -> Unit) {
     val configuration = Configuration()
     configuration.block()
     extensions.add(CONFIG_EXT_NAME, configuration)
