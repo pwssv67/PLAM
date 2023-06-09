@@ -9,7 +9,7 @@ plugins {
     id("io.github.pwssv67.plam") version "0.2.2" apply false
 }
 
-configure {
+plam {
     appConfig {
         namespace = "com.pwssv67"
         compileSdk = 33
