@@ -58,7 +58,7 @@ You can write all common configuration code once, in root `build.gradle.kts`, an
 ### 
 ```kotlin
 //root build.gradle.kts
-configure {
+plam {
     appConfig {
         namespace = "com.sample"
         compileSdk = 33
