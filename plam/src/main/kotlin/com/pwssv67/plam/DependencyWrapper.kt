@@ -2,6 +2,8 @@ package com.pwssv67.plam
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.provider.Provider
 import org.gradle.configurationcache.extensions.capitalized
 import java.lang.IllegalStateException
 
@@ -44,10 +46,24 @@ internal fun Project.registerDependency(dependency: DependencyWrapper) {
 
 private fun Project.registerAsPlatform(depTest: DependencyWrapper): Any {
     if (depTest.dep !is DependencyWrapper) {
-        val registeredDep: Dependency? = dependencies.platform(depTest.dep)
+        val dep = depTest.dep
+        val registeredDep: Any? = when (dep) {
+            is Provider<*> -> registerProvider(dep)
+            else -> dependencies.platform(dep)
+        }
         registeredDep ?: throw IllegalStateException("there is problem with registering ${depTest.dep} as a platform dependency. Enabling Gradle's debugging option might help identifying the problem,")
         return registeredDep
     } else {
         throw IllegalArgumentException("Only simple dependencies can be registered as platform dependencies. You can reorder your modifiers to make platform dependency inmost.")
+    }
+}
+
+@SuppressWarnings("unchecked")
+private fun Project.registerProvider(dep: Provider<*>): Any? {
+    if (dep.orNull is MinimalExternalModuleDependency) {
+        val castDep = dep as Provider<MinimalExternalModuleDependency>
+        return dependencies.platform(castDep)
+    } else {
+        throw IllegalArgumentException("Provider with generic type ${dep.orNull} isn't currently supported as a dependency")
     }
 }
