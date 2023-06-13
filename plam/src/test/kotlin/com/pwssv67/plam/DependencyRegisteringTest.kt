@@ -1,9 +1,13 @@
 package com.pwssv67.plam
 
 import com.pwssv67.plam.test_utils.MockProjectTest
+import org.gradle.api.Transformer
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.provider.Provider
 import org.junit.Test
 import org.mockito.Mockito.*
+import java.util.function.BiFunction
 
 class DependencyRegisteringTest: MockProjectTest() {
 
@@ -152,6 +156,18 @@ class DependencyRegisteringTest: MockProjectTest() {
         verify(project.dependencies, atLeastOnce()).platform(DEP_NAME)
     }
 
+    @Test
+    fun `platform provider dep`() {
+        val dependencyProvider = createMockDependencyProvider()
+        val wrappedDependency = impl(platform(dependencyProvider))
+
+        `when`(project.dependencies.platform(dependencyProvider)).thenReturn(dependencyProvider)
+
+        project.registerDependency(wrappedDependency)
+
+        verify(project.dependencies, atLeastOnce()).platform(dependencyProvider)
+    }
+
 
 
     companion object {
@@ -171,6 +187,47 @@ class DependencyRegisteringTest: MockProjectTest() {
             override fun getReason(): String? = "Mock"
 
             override fun because(reason: String?) = TODO()
+        }
+
+        fun createMockDependencyProvider(): Provider<MinimalExternalModuleDependency> {
+            return object : Provider<MinimalExternalModuleDependency> {
+                override fun get(): MinimalExternalModuleDependency = mock()
+
+                override fun getOrNull(): MinimalExternalModuleDependency? = mock()
+
+                override fun isPresent(): Boolean = true
+
+                override fun forUseAtConfigurationTime(): Provider<MinimalExternalModuleDependency> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun <U : Any?, R : Any?> zip(
+                    provider: Provider<U>,
+                    biFunction: BiFunction<in MinimalExternalModuleDependency, in U, out R>
+                ): Provider<R> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun orElse(provider: Provider<out MinimalExternalModuleDependency>): Provider<MinimalExternalModuleDependency> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun orElse(value: MinimalExternalModuleDependency): Provider<MinimalExternalModuleDependency> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun <S : Any?> flatMap(transformer: Transformer<out Provider<out S>, in MinimalExternalModuleDependency>): Provider<S> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun <S : Any?> map(transformer: Transformer<out S, in MinimalExternalModuleDependency>): Provider<S> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun getOrElse(defaultValue: MinimalExternalModuleDependency): MinimalExternalModuleDependency {
+                    TODO("Not yet implemented")
+                }
+            }
         }
     }
 }
