@@ -4,6 +4,9 @@ import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * PLAM core. Probably you shouldn't use it directly.
+ */
 class PlamPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         try {
