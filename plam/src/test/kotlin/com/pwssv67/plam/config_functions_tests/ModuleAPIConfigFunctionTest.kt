@@ -10,7 +10,7 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class ModuleAPIConfigFunctionTest: CommonLibraryConfigFunctionTest() {
-    override val moduleType: ModuleType = ModuleType.FeatureAPI
+    override val moduleType: ModuleType = ModuleType.BaseModuleType.FeatureAPI
     override fun Project.configure(dependencyList: List<DependencyWrapper>) {
         androidApi(dependencyList)
     }

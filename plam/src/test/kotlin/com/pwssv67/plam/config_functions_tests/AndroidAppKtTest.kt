@@ -13,7 +13,7 @@ import org.mockito.Mockito.verify
 
 
 class AndroidAppKtTest: ConfigFunctionBaseTest() {
-    override val moduleType: ModuleType = ModuleType.App
+    override val moduleType: ModuleType = ModuleType.BaseModuleType.App
     override fun Project.configure(dependencyList: List<DependencyWrapper>) {
         androidApp(dependencyList)
     }

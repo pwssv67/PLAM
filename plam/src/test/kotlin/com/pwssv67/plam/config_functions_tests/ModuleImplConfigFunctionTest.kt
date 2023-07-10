@@ -10,7 +10,7 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class ModuleImplConfigFunctionTest: CommonLibraryConfigFunctionTest() {
-    override val moduleType: ModuleType = ModuleType.FeatureImpl
+    override val moduleType: ModuleType = ModuleType.BaseModuleType.FeatureImpl
     override fun Project.configure(dependencyList: List<DependencyWrapper>) {
         androidImpl(dependencyList)
     }

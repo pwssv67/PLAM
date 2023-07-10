@@ -1,13 +1,14 @@
-package com.pwssv67.plam
+package com.pwssv67.plam.module_types
 
 import com.pwssv67.plam.ModuleType.*
+import com.pwssv67.plam.ModuleType.BaseModuleType.*
 import org.junit.Test
 
 
-class ModuleTypeTest {
+class BaseModuleTypeTest {
     @Test
     fun `check that App module can depend to any`() {
-        ModuleType.values()
+        BaseModuleType.values()
             .forEach { otherModule -> assert(App.canDependOn(otherModule)) {"App should be able to depend on ${otherModule::class.simpleName}"} }
     }
 
@@ -18,7 +19,7 @@ class ModuleTypeTest {
 
     @Test
     fun `check that Library module cannot depend on other types`() {
-        ModuleType.values()
+        BaseModuleType.values()
             .filter { it !is Library }
             .forEach { otherModule -> assert(Library.canDependOn(otherModule).not()) {"Library should not be able to depend on ${otherModule::class.simpleName}"} }
     }
