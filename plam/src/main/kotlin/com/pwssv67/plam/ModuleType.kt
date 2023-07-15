@@ -3,41 +3,85 @@ package com.pwssv67.plam
 @Suppress("MemberVisibilityCanBePrivate")
 /**
  * Type of the module. It defines on which modules it could or could not depend.
+ * Predefined module types are in the [BaseModuleType]
+ * If you want to create your own module - use [CustomAppModule] and [CustomLibraryModule]
  *
- * @see [possibleDependencies]
+ * @see [canDependOn]
  */
-sealed class ModuleType {
+sealed interface ModuleType {
 
-    fun canDependOn(other: ModuleType): Boolean {
-        return possibleDependencies().contains(other)
-    }
+    fun canDependOn(other: ModuleType): Boolean
 
-    fun possibleDependencies(): List<ModuleType> {
-        return when (this) {
-            App -> any()
-            Library -> only(Library)
-            FeatureAPI -> only(Library)
-            FeatureImpl -> only(FeatureAPI, Library)
+    /**
+     * Predefined module types
+     */
+    sealed class BaseModuleType: ModuleType {
+        /**
+         * Application module. Can depend on any other, can be only be used as dependency in other App modules
+         */
+        object App : BaseModuleType()
+
+        /**
+         * Library module. Can only depend on other libraries (external and internal), can be used as a dependency by any other module
+         */
+        object Library : BaseModuleType()
+
+        /**
+         * Feature API module. Can only depend on libraries, can be used as a dependency only by [FeatureImpl] and [App]
+         */
+        object FeatureAPI : BaseModuleType()
+
+        /**
+         * Feature Implementation module. Can only depend on libraries and [FeatureAPI], can be used as a dependency only by [App]
+         */
+        object FeatureImpl : BaseModuleType()
+
+        override fun canDependOn(other: ModuleType): Boolean {
+            return when (other) {
+                is BaseModuleType -> possibleDependencies().contains(other)
+                is CustomModuleType -> other.canBeDependableByOther(this)
+            }
+        }
+
+        fun possibleDependencies(): List<BaseModuleType> {
+            return when (this) {
+                App -> any()
+                Library -> only(Library)
+                FeatureAPI -> only(Library)
+                FeatureImpl -> only(FeatureAPI, Library)
+            }
+        }
+
+        private fun only(vararg types: BaseModuleType): List<BaseModuleType> {
+            return types.toList()
+        }
+
+        private fun any(): List<BaseModuleType> {
+            return values()
+        }
+
+        companion object {
+            fun values(): List<BaseModuleType> {
+                return listOf(App, Library, FeatureAPI, FeatureImpl)
+            }
         }
     }
-
-    object App : ModuleType()
-    object Library : ModuleType()
-    object FeatureAPI : ModuleType()
-    object FeatureImpl : ModuleType()
 
     companion object {
         const val KEY = "ModuleType"
-        fun values(): Array<ModuleType> {
-            return arrayOf(App, Library, FeatureAPI, FeatureImpl)
-        }
     }
 }
 
-private fun only(vararg types: ModuleType): List<ModuleType> {
-    return types.toList()
+private interface CustomModuleType: ModuleType {
+    fun canBeDependableByOther(other: ModuleType): Boolean
 }
 
-private fun any(): List<ModuleType> {
-    return ModuleType.values().toList()
-}
+/**
+ * Base for custom modules, built with Android App plugin.
+ */
+abstract class CustomAppModule: CustomModuleType
+
+/**
+ * Base for custom modules, built with Android Library plugin.
+ */
+abstract class CustomLibraryModule: CustomModuleType

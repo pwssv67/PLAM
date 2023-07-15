@@ -1,9 +1,10 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `kotlin-dsl`
-    //publishing plugin
     `maven-publish`
     id("com.gradle.plugin-publish") version "1.2.0"
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.8.10"
 }
 
 group = "io.github.pwssv67.plam"
@@ -106,3 +107,7 @@ publishing {
     }
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    languageVersion = "1.8"
+}

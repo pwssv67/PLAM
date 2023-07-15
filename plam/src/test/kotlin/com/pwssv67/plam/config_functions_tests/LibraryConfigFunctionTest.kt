@@ -10,7 +10,7 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class LibraryConfigFunctionTest: CommonLibraryConfigFunctionTest() {
-    override val moduleType: ModuleType = ModuleType.Library
+    override val moduleType: ModuleType = ModuleType.BaseModuleType.Library
     override fun Project.configure(dependencyList: List<DependencyWrapper>) {
         androidLibrary(dependencyList)
     }
